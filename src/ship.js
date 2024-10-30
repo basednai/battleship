@@ -1,4 +1,4 @@
-export function ship(length) {
+export function Ship(length = 3) {
   let hits = 0;
   let sunk = false;
   return {
