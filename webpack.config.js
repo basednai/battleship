@@ -1,6 +1,8 @@
 // webpack.config.js
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+// import path from "path";
+// import HtmlWebpackPlugin from "html-webpack-plugin";
 
 module.exports = {
   mode: "development",
@@ -17,7 +19,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "./src/template.html",
+      template: "./src/ui/template.html",
       favicon: "",
     }),
   ],
