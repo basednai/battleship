@@ -1,10 +1,10 @@
 import "./styles/styles.css";
-import "./game-components/ship.js";
-import "./game-components/gameboard.js";
-import { Gameboard } from "./game-components/gameboard.js";
-import { Ship } from "./game-components/ship.js";
-const testBoard = Gameboard()
-const testShip = new Ship()
+import { RenderGB } from "./renderBoard.js";
+import { Player } from "./game-components/player.js";
 
-testBoard.placeShip(testShip, [1, 1], [4, 1]);
-console.log(testShip.isSunk());
+
+let playerOne = new Player("playerOne")
+let playerTwo = new Player("playerTwo")
+
+// RenderGB(playerOne).render()
+// RenderGB(playerTwo).render()

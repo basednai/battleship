@@ -1,8 +1,16 @@
-import { Gameboard } from "./gameboard";
+import { Gameboard } from "./gameboard.js";
+import { RenderGB } from "../renderBoard.js";
 
 export class Player {
-  constructor(type = "cpu") {
-    this.type = type;
+  constructor(num) {
+    this.num = num;
+    RenderGB(this).render();
   }
-  playerBoard = new Gameboard();
+  board = new Gameboard();
+
+  placeShips() {
+
+    
+
+  }
 }

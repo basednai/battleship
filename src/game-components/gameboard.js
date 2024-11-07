@@ -7,7 +7,10 @@ export function Gameboard() {
   return {
     board,
     misses,
-    placeShip: function (ship, [startX, startY], [endX, endY]) {
+    ships,
+    placeShip: function ([startY, startX], [endY, endX]) {
+      let ship = new Ship(endY - startY);
+
       //add check for board bounds
       let horizontal = true;
       //one block width
@@ -34,7 +37,9 @@ export function Gameboard() {
       return true;
     },
     receiveAttack: function (coords) {
-      // 0 = miss, 1 = hit, empty = null
+      // square value:: 0 = miss, 1 = hit, empty = null
+      // true = hit , false = miss/doublehit
+
       let [x, y] = coords;
       let square = board[x][y];
 
