@@ -15,17 +15,14 @@ class GameController {
     // this.boardListener(playerOne);
     this.boardListener(playerTwo);
   }
-  gameInfo = document.querySelector(".gameInfo");
+  gameLog = document.querySelector(".gameLog");
   playerOneBoard = document.querySelector("[data-playeronegrid]");
   playerTurn = playerTwo;
+  playerTurnElement = document.querySelector(".playerTurn");
   wait = false;
 
   startTurn(event) {
-    if (playerOne.gameOver() || playerTwo.gameOver()) {
-      this.gameInfo.innerHTML += `Game Over ${this.playerTurn.name} VICTORY`;
-      console.log("FIN");
-      return;
-    }
+   if ( this.checkWin() ) return
 
     const currentPlayer = event.detail.player;
     const enemy = currentPlayer === playerOne ? playerTwo : playerOne;
@@ -51,12 +48,12 @@ class GameController {
       }] - ${attack ? "hit" : "miss"}`
     );
 
-    const logEntry = document.createElement("p");
+    const logEntry = document.createElement("li");
     logEntry.classList.add(attack ? "hitEntry" : "missEntry");
     logEntry.innerHTML = `${this.getName(currentPlayer)} attack at [${
       coords[0]
     }, ${coords[1]}] - ${attack ? "hit" : "miss"}`;
-    this.gameInfo.appendChild(logEntry);
+    this.gameLog.appendChild(logEntry);
 
     document.dispatchEvent(
       new CustomEvent("endTurn", { detail: { currentPlayer: currentPlayer } })
@@ -64,18 +61,16 @@ class GameController {
   }
 
   endTurn(event) {
-    if (playerOne.gameOver() || playerTwo.gameOver()) {
-      this.gameInfo.innerHTML += `Game Over ${this.playerTurn.name} VICTORY`;
-      console.log("FIN");
-      return;
-    }
+    if ( this.checkWin() ) return
+
     let nextPlayer =
       event.detail.currentPlayer === playerOne ? playerTwo : playerOne;
 
     this.playerTurn = nextPlayer;
-    document.querySelector(".playerTurn").innerHTML = (nextPlayer == playerOne) ? `<strong>${this.getName(
-      nextPlayer
-    )} Turn</strong>` : `${this.getName(nextPlayer)} calculating their move...`;
+    this.playerTurnElement.innerHTML =
+      nextPlayer == playerOne
+        ? `<strong>${this.getName(nextPlayer)} Turn</strong>`
+        : `${this.getName(nextPlayer)} calculating their move...`;
 
     //if playerTwo turn trigger CPU
     if (nextPlayer == playerTwo) {
@@ -166,6 +161,24 @@ class GameController {
 
     return player.name == "playerOne" ? "Player 1" : "Player 2";
   }
+
+  checkWin() {
+    if (playerOne.gameOver() || playerTwo.gameOver()) {
+      const winMsg = `Game Over ${this.playerTurn.name} VICTORY`;
+      let gameLogWin = document.createElement("li");
+      gameLogWin.textContent = winMsg;
+      gameLogWin.classList.add("hitEntry");
+      this.playerTurnElement.classList.add("hitEntry");
+
+      this.gameLog.appendChild(gameLogWin);
+      this.playerTurnElement.innerHTML = winMsg;
+
+      this.wait = true;
+      console.log("FIN");
+      return true;
+    }
+  }
+
 }
 
 const gameController = new GameController();
