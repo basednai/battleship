@@ -53,7 +53,8 @@ class GameController {
     logEntry.innerHTML = `${this.getName(currentPlayer)} attack at [${
       coords[0]
     }, ${coords[1]}] - ${attack ? "hit" : "miss"}`;
-    this.gameLog.appendChild(logEntry);
+      this.gameLog.appendChild(logEntry);
+      logEntry.scrollIntoView()
 
     document.dispatchEvent(
       new CustomEvent("endTurn", { detail: { currentPlayer: currentPlayer } })
@@ -70,7 +71,7 @@ class GameController {
     this.playerTurnElement.innerHTML =
       nextPlayer == playerOne
         ? `<strong>${this.getName(nextPlayer)} Turn</strong>`
-        : `${this.getName(nextPlayer)} calculating their move...`;
+        : `${this.getName(nextPlayer)} calculating move...`;
 
     //if playerTwo turn trigger CPU
     if (nextPlayer == playerTwo) {
@@ -89,9 +90,6 @@ class GameController {
       console.log(coords, cpuSquare, cpuSquare.getAttribute("data-clicked"));
 
       while (cpuSquare && cpuSquare.getAttribute("data-clicked") == "true") {
-        console.log(
-          "DOUBLE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-        );
 
         coords = [
           Math.floor(Math.random() * 10),
@@ -181,7 +179,8 @@ class GameController {
       gameLogWin.classList.add("hitEntry");
       this.playerTurnElement.classList.add("hitEntry");
 
-      this.gameLog.appendChild(gameLogWin);
+        this.gameLog.appendChild(gameLogWin);
+        gameLogWin.scrollIntoView()
       this.playerTurnElement.innerHTML = winMsg;
 
       this.wait = true;

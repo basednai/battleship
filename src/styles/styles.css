@@ -24,29 +24,33 @@
 
 .logContainer {
   display: grid;
-  place-items: center;
-  overflow: auto;
   grid-row: 2 / -1;
   grid-column: 3 / -1;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+  max-height: 100%;
 }
 
 .logSub {
-  overflow: auto;
   max-height: 100%;
+  width: 100%;
 }
 
 .gameLog {
-  max-height: 100%;
+  overflow-y: auto;
+  max-height: 80vh;
   font-size: 0.75rem;
   width: 100%;
 }
 
 li {
-  margin-top: .5rem;
+  margin-top: 0.5rem;
 }
 
 .playerTurn {
   place-self: center;
+  padding: 0px 40px;
+  text-align: center;
 }
 
 .playerDivGrid {
@@ -78,7 +82,7 @@ li {
   grid-column: 1 / -1;
   grid-row: 1 / 2;
   width: 100vw;
-  height: 100px;
+  height: 10vh;
 
   place-items: center;
 }
