@@ -40,21 +40,24 @@ export function Gameboard() {
       // square value:: 0 = miss, 1 = hit, empty = null
       // true = hit , false = miss/doublehit
 
+
       let [x, y] = coords;
       let square = board[x][y];
 
       if (misses.includes(coords) || square == 1) {
-        return false;
-      } else if (square == 1) {
+        console.log("already picked");
+
         return false;
       } else if (square instanceof Ship) {
         square.hit();
         board[x][y] = 1;
+        console.log("HIT");
         return true;
       } else {
         misses.push(coords);
         // don't modify hits
         square = 0;
+        console.log("miss");
         return false;
       }
     },

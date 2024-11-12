@@ -2,15 +2,21 @@ import { Gameboard } from "./gameboard.js";
 import { RenderGB } from "../renderBoard.js";
 
 export class Player {
-  constructor(num) {
-    this.num = num;
+  constructor(name) {
+    this.name = name;
     RenderGB(this).render();
   }
   board = new Gameboard();
 
-  placeShips() {
+  placeShips(start, end) {
+    this.board.placeShip(start, end);
+  }
 
-    
+  gameOver() {
+   return this.board.allShipsSunk()
+  }
 
+  takeAttack(coords) {
+    return this.board.receiveAttack(coords)
   }
 }
