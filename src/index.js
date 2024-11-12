@@ -22,7 +22,7 @@ class GameController {
   wait = false;
 
   startTurn(event) {
-   if ( this.checkWin() ) return
+    if (this.checkWin()) return;
 
     const currentPlayer = event.detail.player;
     const enemy = currentPlayer === playerOne ? playerTwo : playerOne;
@@ -61,7 +61,7 @@ class GameController {
   }
 
   endTurn(event) {
-    if ( this.checkWin() ) return
+    if (this.checkWin()) return;
 
     let nextPlayer =
       event.detail.currentPlayer === playerOne ? playerTwo : playerOne;
@@ -89,7 +89,11 @@ class GameController {
       console.log(coords, cpuSquare, cpuSquare.getAttribute("data-clicked"));
 
       while (cpuSquare && cpuSquare.getAttribute("data-clicked") == "true") {
-        let coords = [
+        console.log(
+          "DOUBLE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+        );
+
+        coords = [
           Math.floor(Math.random() * 10),
           Math.floor(Math.random() * 10),
         ];
@@ -97,7 +101,14 @@ class GameController {
         cpuSquare = this.playerOneBoard.querySelector(
           `[data-coordinates="${coords}"]`
         );
+        console.log(
+          "NEW COORDS",
+          coords,
+          cpuSquare,
+          cpuSquare.getAttribute("data-clicked")
+        );
       }
+
       cpuSquare.classList.add("squareHover");
 
       setTimeout(() => {
@@ -178,7 +189,6 @@ class GameController {
       return true;
     }
   }
-
 }
 
 const gameController = new GameController();
