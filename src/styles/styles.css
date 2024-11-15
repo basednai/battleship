@@ -1,46 +1,74 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
-:root {
-  box-sizing: border-box;
-}
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200");
+
+
 * {
   margin: 0px;
   padding: 0px;
+  box-sizing: border-box;
 }
 
 .bodyContainer {
   display: grid;
+  grid-template-rows: 1fr 4fr 1fr;
   grid-template-columns: 1fr 2fr 1fr;
-  grid-template-rows: min-content 1fr;
   place-content: center;
+  max-height: 100vh;
   height: 100vh;
+  width: 100vw;
   font-family: "Press Start 2P";
 }
-.mainGame {
+
+.leftColumn {
+  place-items: center;
   display: grid;
-  place-content: center;
+  grid-template-rows: repeat(2, 1fr);
   max-height: 100%;
 }
 
-.logContainer {
+.mainGame {
   display: grid;
-  grid-row: 2 / -1;
+  place-content: center;
+
+  max-height: 100%;
+}
+
+.logContainerGrid {
+  display: grid;
+  place-items: center;
+  grid-row: 2 / 3;
   grid-column: 3 / -1;
   padding-top: 1rem;
-  padding-bottom: 2rem;
-  max-height: 100%;
+  height: 80%;
+  /* max-height: 1000px; */
+}
+
+.logContainer {
+  height: 80%;
+  max-height: 80%;
+  width: 100%
+}
+
+.logHeader {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 1rem;
 }
 
 .logSub {
   max-height: 100%;
   width: 100%;
+  overflow: hidden;
 }
 
 .gameLog {
+  padding-top: 1rem;
   overflow-y: auto;
-  max-height: 80vh;
-  font-size: 0.75rem;
+  max-height: 1000px;
+  font-size: 1rem;
   width: 100%;
+  text-align: center;
 }
 
 li {
@@ -48,7 +76,8 @@ li {
 }
 
 .playerTurn {
-  place-self: center;
+  place-self: start;
+width: 100%;
   padding: 0px 40px;
   text-align: center;
 }
@@ -61,36 +90,31 @@ li {
 }
 
 .square {
-  border: 1px solid black;
-  width: 3rem;
-  height: 3rem;
+  border: 2px solid black;
+  width: 4rem;
+  height: 4rem;
 }
 
 .playerOneSquare {
-  width: 1.5rem;
-  height: 1.5rem;
-}
-
-.leftColumn {
-  place-items: center;
-  display: grid;
-  grid-template-rows: repeat(3, 1fr);
+  width: 2rem;
+  height: 2rem;
 }
 
 .header {
-  display: grid;
+  display: flex;
   grid-column: 1 / -1;
   grid-row: 1 / 2;
   width: 100vw;
-  height: 10vh;
-
-  place-items: center;
+  align-items: flex-end;
 }
 
 .title {
   font-family: "Press Start 2P";
-  font-size: 3rem;
+  font-size: 4rem;
+  margin-left: auto;
+  margin-right: auto;
 }
+
 .squareHover {
   background-color: lightblue;
 }
@@ -100,5 +124,20 @@ li {
 }
 
 .missEntry {
-  color: grey;
+  color: red;
+}
+
+.placeBtnContainer {
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 1rem;
+}
+
+.icon {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+#startGame {
+  display: block;
 }

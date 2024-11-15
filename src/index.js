@@ -1,18 +1,18 @@
 import "./styles/styles.css";
 import { Player } from "./game-components/player.js";
+import { Ship } from "./game-components/ship.js";
 
 let playerOne = new Player("playerOne");
 let playerTwo = new Player("playerTwo");
 
-playerOne.placeShips([1, 1], [3, 1]);
-playerTwo.placeShips([1, 8], [7, 8]);
+// playerOne.placeShips([4, 3], [4, 6]);
+// playerTwo.placeShips([1, 1], [3, 1]);
 
 class GameController {
   constructor() {
     document.addEventListener("startTurn", this.startTurn.bind(this));
     document.addEventListener("endTurn", this.endTurn.bind(this));
 
-    // this.boardListener(playerOne);
     this.boardListener(playerTwo);
   }
   gameLog = document.querySelector(".gameLog");
@@ -20,8 +20,14 @@ class GameController {
   playerTurn = playerTwo;
   playerTurnElement = document.querySelector(".playerTurn");
   wait = false;
+    firstMove = true;
+    gameStarted = false
 
   startTurn(event) {
+    this.firstMove = false;
+    document.querySelector("#placeShips").style.display = "none";
+    document.querySelector("#startGame").style.display = "none";
+
     if (this.checkWin()) return;
 
     const currentPlayer = event.detail.player;
@@ -53,8 +59,8 @@ class GameController {
     logEntry.innerHTML = `${this.getName(currentPlayer)} attack at [${
       coords[0]
     }, ${coords[1]}] - ${attack ? "hit" : "miss"}`;
-      this.gameLog.appendChild(logEntry);
-      logEntry.scrollIntoView()
+    this.gameLog.appendChild(logEntry);
+    logEntry.scrollIntoView();
 
     document.dispatchEvent(
       new CustomEvent("endTurn", { detail: { currentPlayer: currentPlayer } })
@@ -64,8 +70,11 @@ class GameController {
   endTurn(event) {
     if (this.checkWin()) return;
 
-    let nextPlayer =
-      event.detail.currentPlayer === playerOne ? playerTwo : playerOne;
+    let nextPlayer = this.firstMove
+      ? playerOne
+      : event.detail.currentPlayer === playerOne
+      ? playerTwo
+      : playerOne;
 
     this.playerTurn = nextPlayer;
     this.playerTurnElement.innerHTML =
@@ -74,7 +83,7 @@ class GameController {
         : `${this.getName(nextPlayer)} calculating move...`;
 
     //if playerTwo turn trigger CPU
-    if (nextPlayer == playerTwo) {
+    if (nextPlayer == playerTwo && !this.firstMove) {
       console.log("cpu choosing ...");
       this.wait = true;
 
@@ -90,7 +99,6 @@ class GameController {
       console.log(coords, cpuSquare, cpuSquare.getAttribute("data-clicked"));
 
       while (cpuSquare && cpuSquare.getAttribute("data-clicked") == "true") {
-
         coords = [
           Math.floor(Math.random() * 10),
           Math.floor(Math.random() * 10),
@@ -121,7 +129,7 @@ class GameController {
             },
           })
         );
-      }, 0);
+      }, 1000);
     }
   }
 
@@ -148,6 +156,11 @@ class GameController {
           );
         } else {
           console.log("wrong square");
+          if (
+           !this.gameStarted
+          ) {
+            alert("Must start game, hit play button!");
+          }
         }
       });
 
@@ -163,6 +176,32 @@ class GameController {
         }
       });
     });
+
+    document.querySelector("#placeShips").addEventListener("click", () => {
+      this.randomShips(playerOne);
+    });
+  }
+
+  randomShips(player) {
+    player.board.clearBoard();
+
+    for (let i = 0; i < 5; i++) {
+      player.board.randomPlacement();
+    }
+
+    const grid = document.querySelectorAll(`.${player.name}Square`);
+    if (player == playerOne) {
+      grid.forEach((square) => {
+        let [x, y] = square.getAttribute("data-coordinates").split(",");
+        (x = Number(x)), (y = Number(y));
+
+        if (player.board.board[x][y] instanceof Ship) {
+          square.setAttribute("style", "background-color: red;");
+        } else {
+          square.setAttribute("style", "background-color: white;");
+        }
+      });
+    }
   }
 
   getName(player) {
@@ -179,21 +218,82 @@ class GameController {
       gameLogWin.classList.add("hitEntry");
       this.playerTurnElement.classList.add("hitEntry");
 
-        this.gameLog.appendChild(gameLogWin);
-        gameLogWin.scrollIntoView()
+      this.gameLog.appendChild(gameLogWin);
+      gameLogWin.scrollIntoView();
       this.playerTurnElement.innerHTML = winMsg;
 
       this.wait = true;
-      console.log("FIN");
       return true;
     }
+  }
+
+  startGame() {
+    // fix restart / random piece behavior
+    document.querySelector("#restartGame").style.display = "block";
+    document.querySelector("#startGame").style.display = "none";
+    document.querySelector("#placeShips").style.display = "none";
+
+    this.firstMove = true;
+    let allSquares = document.querySelectorAll(".square");
+    allSquares.forEach((square) => {
+      square.setAttribute("data-clicked", "false");
+    });
+
+    if (playerOne.gameOver() || !this.firstMove) {
+      this.randomShips(playerOne);
+    }
+
+    this.randomShips(playerTwo);
+
+    this.gameLog.innerHTML = "";
+
+    document.dispatchEvent(
+      new CustomEvent("endTurn", {
+        detail: { currentPlayer: gameController.playerTurn },
+      })
+    );
+
+      this.gameStarted = true
+  }
+
+    restartGame() {
+      this.gameStarted = false
+    playerOne.board.clearBoard();
+    playerTwo.board.clearBoard();
+    this.gameLog.innerHTML = "";
+
+    const grid = document.querySelectorAll(`.square`);
+    grid.forEach((square) => {
+      let [x, y] = square.getAttribute("data-coordinates").split(",");
+      (x = Number(x)), (y = Number(y));
+      if (square.classList.contains("playerOneSquare")) {
+        if (square instanceof Ship) {
+          square.setAttribute("style", "background-color: red;");
+        } else {
+          square.setAttribute("style", "background-color: white;");
+        }
+      } else square.setAttribute("style", "background-color: white;");
+    });
+
+    document.querySelector("#startGame").style.display = "block";
+    document.querySelector("#placeShips").style.display = "block";
+
+    this.playerTurn = playerTwo;
+    this.wait = false;
+    this.firstMove = true;
   }
 }
 
 const gameController = new GameController();
 
-document.dispatchEvent(
-  new CustomEvent("endTurn", {
-    detail: { currentPlayer: gameController.playerTurn },
-  })
-);
+document.querySelector("#startGame").addEventListener("click", () => {
+  gameController.startGame();
+});
+document.querySelector("#restartGame").addEventListener("click", () => {
+  gameController.restartGame();
+});
+
+document.querySelector("#restartGame").style.display = "none";
+
+window.playerOne = playerOne;
+window.playerTwo = playerTwo;

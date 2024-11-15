@@ -6,6 +6,7 @@ export class Player {
     this.name = name;
     RenderGB(this).render();
   }
+
   board = new Gameboard();
 
   placeShips(start, end) {
@@ -20,3 +21,4 @@ export class Player {
     return this.board.receiveAttack(coords)
   }
 }
+

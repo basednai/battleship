@@ -12,7 +12,21 @@
       <div class="header"><div class="title">BATTLESHIP</div></div>
       <div class="leftColumn">
         <div class="playerOneDiv playerDiv">
-          <div class="playerDivGrid" data-playerOneGrid=""></div>
+        <div class="placeBtnContainer">
+          <span id="placeShips" class="material-symbols-outlined icon">
+            shuffle
+          </span>
+
+          <span id="startGame" class="material-symbols-outlined icon">
+            play_circle
+            </span>
+            <span id="restartGame" class="material-symbols-outlined icon">
+              Autorenew
+              </span>
+
+
+        </div>
+        <div class="playerDivGrid" data-playerOneGrid=""></div>
         </div>
         <div class="playerTurn"></div>
         <div></div>
@@ -22,11 +36,14 @@
           <div class="playerDivGrid" data-playerTwoGrid></div>
         </div>
       </div>
-      <div class="logContainer">
-        <div class="logSub">
+      <div class="logContainerGrid">
+        <div class="logContainer">
+
           <div class="logHeader">Game Log</div>
-                <ul class="gameLog"></ul>
-        </div>
+          <div class="logSub">
+                  <ul class="gameLog"></ul>
+          </div>
+      </div>
       </div>
         </body>
     </div>
