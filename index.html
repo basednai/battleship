@@ -3,8 +3,48 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="#" />
+
     <title>Title</title>
   <script defer src="main.js"></script></head>
   <body>
-  </body>
+    <div class="bodyContainer">
+      <div class="header"><div class="title">BATTLESHIP</div></div>
+      <div class="leftColumn">
+        <div class="playerOneDiv playerDiv">
+        <div class="placeBtnContainer">
+          <span id="placeShips" class="material-symbols-outlined icon">
+            shuffle
+          </span>
+
+          <span id="startGame" class="material-symbols-outlined icon">
+            play_circle
+            </span>
+            <span id="restartGame" class="material-symbols-outlined icon">
+              Autorenew
+              </span>
+
+
+        </div>
+        <div class="playerDivGrid" data-playerOneGrid=""></div>
+        </div>
+        <div class="playerTurn"></div>
+        <div></div>
+      </div>
+      <div class="mainGame">
+        <div class="playerTwoDiv playerDiv">
+          <div class="playerDivGrid" data-playerTwoGrid></div>
+        </div>
+      </div>
+      <div class="logContainerGrid">
+        <div class="logContainer">
+
+          <div class="logHeader">Game Log</div>
+          <div class="logSub">
+                  <ul class="gameLog"></ul>
+          </div>
+      </div>
+      </div>
+        </body>
+    </div>
 </html>
